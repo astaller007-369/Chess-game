@@ -18,9 +18,12 @@ AI_LEVELS = {
 }
 
 PUZZLE_DIFFICULTIES = {
-    "Beginner (Elo 800-1100)": 0, "Casual Player (Elo 1200-1400)": 1,
-    "Intermediate (Elo 1500-1700)": 2, "Advanced (Elo 1800-2000)": 3,
-    "Master (Elo 2100-2300)": 4, "Grandmaster (Elo 2400-2600+)": 5
+    "Beginner (Elo 800-1100)": 0, 
+    "Casual Player (Elo 1200-1400)": 1,
+    "Intermediate (Elo 1500-1700)": 2, 
+    "Advanced (Elo 1800-2000)": 3,
+    "Master (Elo 2100-2300)": 4, 
+    "Grandmaster (Elo 2400-2600+)": 5
 }
 
 PUZZLE_DATA = {
@@ -31,7 +34,6 @@ PUZZLE_DATA = {
     4: {"fen": "r2q1rk1/pb1nbppp/1p2p3/2ppP3/3P4/2PBPN2/PP4PP/R1BQ1RK1 b - - 0 11", "solution": "f7f6", "prompt": "Black to move: Execute a precise, high-level counter-strike to shatter White's center space.", "hint": "Undermine White's central e5 e-pawn anchor point."},
     5: {"fen": "3r2k1/p4p1p/1pbr1qp1/nB2p3/Q3P3/P1R2P2/1P1NK1PP/2R5 b - - 5 24", "solution": "d6d2", "prompt": "Black to move: Unleash a deep Grandmaster calculation sequence starting with an aggressive temporary piece sacrifice.", "hint": "Sacrifice your rook down on the open d2 lane to break the defenses."
 }
-
 OPENINGS = {
     "Ruy Lopez (Spanish Opening)": ["e2e4", "e7e5", "g1f3", "b1c6", "b1c3", "f8b5"],
     "Sicilian Defense": ["e2e4", "c7c5"],
@@ -76,6 +78,7 @@ THEME_COLORS = {
     "Dark Mode Charcoal": {"light": "#e2e4e6", "dark": "#3b3b3b"},
     "Luxury Premium Wood": {"light": "#f0d9b5", "dark": "#8b5a2b"}
 }
+
 # 3. Persistent Rating Storage
 if "player_rating" not in st.session_state:
     if "saved_rating" in st.query_params:
@@ -99,7 +102,6 @@ if "player_color" not in st.session_state: st.session_state.player_color = "Whit
 if "game_resolved" not in st.session_state: st.session_state.game_resolved = False
 
 board = st.session_state.board
-
 # Sidebar Settings
 with st.sidebar:
     st.header("🎨 Visual Theme")
@@ -144,6 +146,7 @@ def display_sensory_feedback(b):
             st.success("⚔️ *CRASH! PIECE CAPTURED!* ⚔️")
         else:
             st.info("🪵 *Thud. Move Played.* 🪵")
+
 # =========================================================================
 # TAB 1 & 2 & 3: MATCH, ANALYSIS, AND PUZZLES
 # =========================================================================
@@ -255,3 +258,4 @@ with tab_endgame:
             
     flip_end = st.checkbox("Flip Perspective (View as Black)", key="flip_end")
     st.image(render_themed_board(chess.Board(end_data["fen"]), size=350, flip=flip_end), use_container_width=True)
+        
