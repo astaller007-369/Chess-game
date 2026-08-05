@@ -35,11 +35,11 @@ PUZZLE_DATA = {
     5: {"fen": "3r2k1/p4p1p/1pbr1qp1/nB2p3/Q3P3/P1R2P2/1P1NK1PP/2R5 b - - 5 24", "solution": "d6d2", "prompt": "Black to move: Unleash a deep Grandmaster calculation sequence starting with an aggressive temporary piece sacrifice.", "hint": "Sacrifice your rook down on the open d2 lane to break the defenses."}
 }
 OPENINGS = {
-    "Ruy Lopez (Spanish Opening)": ["e2e4", "e7e5", "g1f3", "b1c6", "b1c3", "f8b5"],
-    "Sicilian Defense": ["e2e4", "c7c5"],
-    "French Defense": ["e2e4", "e7e3"],
-    "Queen's Gambit Accepted": ["d2d4", "d7d5", "c2c4", "d5c4"],
-    "Caro-Kann Defense": ["e2e4", "c7c6"]
+    "Ruy Lopez (Spanish Opening)": ["e4", "e5", "Nf3", "Nc6", "Bb5"],
+    "Sicilian Defense": ["e4", "c5"],
+    "French Defense": ["e4", "e6"],
+    "Queen's Gambit Accepted": ["d4", "d5", "c4", "dxc4"],
+    "Caro-Kann Defense": ["e4", "c6"]
 }
 
 MIDDLEGAME_THEMES = {
@@ -50,7 +50,7 @@ MIDDLEGAME_THEMES = {
         "explanation": "Moving the knight to g5 sets up high-level attack patterns pointing directly at the black king's short-castle structure."
     },
     "Minority Pawn Attack Initiative": {
-        "fen": "2rr2k1/pp1qbppp/2n1pn2/1N1p4/3P4/P3PN2/1P1B1PPP/2RQ1RK1 w - - 5 13",
+        "fen": "2rr2k1/pp1qbppp/2n1pn2/1N1p4/3P4/3P4/P3PN2/1P1B1PPP/2RQ1RK1 w - - 5 13",
         "prompt": "White to move. Launch a minority pawn storm on the Queenside to force entry lines.",
         "best_move": "b2b4",
         "explanation": "b4 drives the expansion layout on the queenside, preparing to create weaknesses in Black's pawn chain."
@@ -155,15 +155,16 @@ with tab_game:
     if ai_should_play and not board.is_game_over():
         with st.spinner("AI calculating..."):
             res = requests.get(f"https://stockfish.online{board.fen()}&depth={ai_config['depth']}", timeout=12).json()
-            if res.get("success"): board.push(chess.Move.from_uci(res["bestmove"].split()))
+            if res.get("success"): board.push(chess.Move.from_uci(res["bestmove"].split()[0]))
             st.rerun()
             
     st.subheader("Your Move")
-    col1, col2 = st.columns(2)  # FIXED: Added the required '2' here
+    col1, col2 = st.columns(2)
     with col1:
         move_input = st.text_input("UCI Format:", key="match_input", placeholder="e2e4", disabled=ai_should_play or board.is_game_over())
     with col2:
-        st.write("")  # Spacer for alignment on mobile layouts
+        st.write("")
+        st.write("")
         if st.button("Play", use_container_width=True, disabled=ai_should_play or board.is_game_over()) and move_input:
             try:
                 move = chess.Move.from_uci(move_input.strip().lower())
@@ -187,7 +188,7 @@ with tab_puzzles:
     p_tier = st.selectbox("Choose Puzzle Difficulty:", list(PUZZLE_DIFFICULTIES.keys()))
     curr_p = PUZZLE_DATA[PUZZLE_DIFFICULTIES[p_tier]]
     
-    col_hz1, col_hz2 = st.columns(2)  # FIXED: Added the required '2' here
+    col_hz1, col_hz2 = st.columns(2)
     with col_hz1:
         p_input = st.text_input("Enter Puzzle Solution (UCI):", key="p_in_field")
     with col_hz2:
@@ -213,7 +214,9 @@ with tab_openings:
     op_board = chess.Board()
     for m in OPENINGS[op_choice]:
         try: op_board.push_san(m)
-        except Exception: op_board.push_uci(m)
+        except Exception: 
+            try: op_board.push_uci(m)
+            except Exception: pass
     
     flip_opening = st.checkbox("Flip Perspective (View as Black)", key="flip_op")
     st.image(render_themed_board(op_board, size=350, flip=flip_opening), use_container_width=True)
@@ -259,4 +262,4 @@ with tab_endgame:
             
     flip_end = st.checkbox("Flip Perspective (View as Black)", key="flip_end")
     st.image(render_themed_board(chess.Board(end_data["fen"]), size=350, flip=flip_end), use_container_width=True)
-    
+        
