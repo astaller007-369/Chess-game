@@ -159,10 +159,11 @@ with tab_game:
             st.rerun()
             
     st.subheader("Your Move")
-    col1, col2 = st.columns()
+    col1, col2 = st.columns(2)  # FIXED: Added the required '2' here
     with col1:
         move_input = st.text_input("UCI Format:", key="match_input", placeholder="e2e4", disabled=ai_should_play or board.is_game_over())
     with col2:
+        st.write("")  # Spacer for alignment on mobile layouts
         if st.button("Play", use_container_width=True, disabled=ai_should_play or board.is_game_over()) and move_input:
             try:
                 move = chess.Move.from_uci(move_input.strip().lower())
@@ -186,7 +187,7 @@ with tab_puzzles:
     p_tier = st.selectbox("Choose Puzzle Difficulty:", list(PUZZLE_DIFFICULTIES.keys()))
     curr_p = PUZZLE_DATA[PUZZLE_DIFFICULTIES[p_tier]]
     
-    col_hz1, col_hz2 = st.columns()
+    col_hz1, col_hz2 = st.columns(2)  # FIXED: Added the required '2' here
     with col_hz1:
         p_input = st.text_input("Enter Puzzle Solution (UCI):", key="p_in_field")
     with col_hz2:
@@ -258,3 +259,4 @@ with tab_endgame:
             
     flip_end = st.checkbox("Flip Perspective (View as Black)", key="flip_end")
     st.image(render_themed_board(chess.Board(end_data["fen"]), size=350, flip=flip_end), use_container_width=True)
+    
