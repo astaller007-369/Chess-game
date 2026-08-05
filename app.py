@@ -32,7 +32,7 @@ PUZZLE_DATA = {
     2: {"fen": "r1k4r/ppp1bqpp/2np1n2/4p1N1/4P3/2NP4/PPP2PPP/R1B1K2R w KQ - 0 10", "solution": "g5f7", "prompt": "White to move: Locate the hidden tactical fork opportunity.", "hint": "Look at the undefended black queen and f7 square setup."},
     3: {"fen": "q4rk1/5ppp/r7/1p2P3/1p6/1P4P1/P1R2P1P/3Q1RK1 b - - 0 22", "solution": "a6a2", "prompt": "Black to move: Punish White's loose queenside pawn defense structure.", "hint": "Target the a2 pawn directly using your rook."},
     4: {"fen": "r2q1rk1/pb1nbppp/1p2p3/2ppP3/3P4/2PBPN2/PP4PP/R1BQ1RK1 b - - 0 11", "solution": "f7f6", "prompt": "Black to move: Execute a precise, high-level counter-strike to shatter White's center space.", "hint": "Undermine White's central e5 e-pawn anchor point."},
-    5: {"fen": "3r2k1/p4p1p/1pbr1qp1/nB2p3/Q3P3/P1R2P2/1P1NK1PP/2R5 b - - 5 24", "solution": "d6d2", "prompt": "Black to move: Unleash a deep Grandmaster calculation sequence starting with an aggressive temporary piece sacrifice.", "hint": "Sacrifice your rook down on the open d2 lane to break the defenses."
+    5: {"fen": "3r2k1/p4p1p/1pbr1qp1/nB2p3/Q3P3/P1R2P2/1P1NK1PP/2R5 b - - 5 24", "solution": "d6d2", "prompt": "Black to move: Unleash a deep Grandmaster calculation sequence starting with an aggressive temporary piece sacrifice.", "hint": "Sacrifice your rook down on the open d2 lane to break the defenses."}
 }
 OPENINGS = {
     "Ruy Lopez (Spanish Opening)": ["e2e4", "e7e5", "g1f3", "b1c6", "b1c3", "f8b5"],
@@ -258,4 +258,3 @@ with tab_endgame:
             
     flip_end = st.checkbox("Flip Perspective (View as Black)", key="flip_end")
     st.image(render_themed_board(chess.Board(end_data["fen"]), size=350, flip=flip_end), use_container_width=True)
-        
