@@ -155,7 +155,7 @@ with tab_game:
     if ai_should_play and not board.is_game_over():
         with st.spinner("AI calculating..."):
             res = requests.get(f"https://stockfish.online{board.fen()}&depth={ai_config['depth']}", timeout=12).json()
-            if res.get("success"): board.push(chess.Move.from_uci(res["bestmove"].split()[0]))
+            if res.get("success"): board.push(chess.Move.from_uci(res["bestmove"].split()))
             st.rerun()
             
     st.subheader("Your Move")
@@ -262,4 +262,4 @@ with tab_endgame:
             
     flip_end = st.checkbox("Flip Perspective (View as Black)", key="flip_end")
     st.image(render_themed_board(chess.Board(end_data["fen"]), size=350, flip=flip_end), use_container_width=True)
-        
+            
